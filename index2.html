@@ -7,10 +7,6 @@
     <title>Food Payment</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
         body {
             margin: 0;
             padding: 20px;
@@ -19,7 +15,7 @@
         }
 
         .payment-box {
-            max-width: 420px;
+            max-width: 400px;
             margin: 40px auto;
             background: white;
             padding: 30px;
@@ -29,12 +25,12 @@
         }
 
         h1 {
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         .total-label {
-            font-size: 16px;
             color: #666;
+            font-size: 16px;
         }
 
         .total {
@@ -46,13 +42,11 @@
         .qr {
             width: 250px;
             max-width: 100%;
-            border-radius: 10px;
         }
 
         .instruction {
-            margin-top: 20px;
-            line-height: 1.5;
             color: #555;
+            line-height: 1.5;
         }
 
         .button {
@@ -65,15 +59,6 @@
             border-radius: 10px;
             font-weight: bold;
         }
-
-        .button:hover {
-            opacity: 0.85;
-        }
-
-        .error {
-            color: red;
-            font-weight: bold;
-        }
     </style>
 </head>
 
@@ -83,65 +68,50 @@
 
     <h1>Food Order Payment</h1>
 
-    <p class="total-label">Total Payment</p>
+    <div class="total-label">
+        Total Payment
+    </div>
 
     <div class="total" id="total">
-        Loading...
+        RM 0.00
     </div>
 
     <p>Scan the QR code below to make payment.</p>
 
-    <!-- Tukar bsnqr.png kepada nama fail QR kau -->
-    <img src="qr.jpeg" alt="BSN Payment QR" class="qr">
+    <img src="qr.jpeg"
+         alt="Payment QR"
+         class="qr">
 
     <p class="instruction">
         Please pay the exact amount shown above.
         <br><br>
-        After payment, return to the food order form
+        After payment, return to the Jotform
         and upload your payment receipt.
     </p>
 
-    <!-- Tukar URL ini kepada URL Jotform kau -->
-    <a href="https://YOUR-JOTFORM-LINK"
+    <a href="YOUR-JOTFORM-URL"
        class="button">
-        BACK TO ORDER FORM
+        BACK TO ORDER
     </a>
 
 </div>
 
 <script>
 
-    // Ambil parameter "amount" daripada URL
-    const urlParams = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(window.location.search);
 
-    // Contoh URL:
-    // ?amount=25
-    const amount = urlParams.get("amount");
+    const amount = params.get("amount");
 
-    const totalElement = document.getElementById("total");
+    if (amount) {
 
-    if (amount !== null && amount !== "") {
+        const number = parseFloat(amount);
 
-        // Tukar kepada nombor
-        const numberAmount = parseFloat(amount);
+        if (!isNaN(number)) {
 
-        if (!isNaN(numberAmount) && numberAmount >= 0) {
-
-            // Paparkan harga dalam format RM
-            totalElement.textContent =
-                "RM " + numberAmount.toFixed(2);
-
-        } else {
-
-            totalElement.innerHTML =
-                '<span class="error">Invalid amount</span>';
+            document.getElementById("total").textContent =
+                "RM " + number.toFixed(2);
 
         }
-
-    } else {
-
-        totalElement.innerHTML =
-            '<span class="error">Amount not provided</span>';
 
     }
 
