@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Food Payment</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+        }
+
+        .payment-box {
+            max-width: 420px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        .total-label {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .total {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0 25px;
+        }
+
+        .qr {
+            width: 250px;
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .instruction {
+            margin-top: 20px;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .button {
+            display: block;
+            margin-top: 25px;
+            padding: 15px;
+            background: #008000;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            opacity: 0.85;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="payment-box">
+
+    <h1>Food Order Payment</h1>
+
+    <p class="total-label">Total Payment</p>
+
+    <div class="total" id="total">
+        Loading...
+    </div>
+
+    <p>Scan the QR code below to make payment.</p>
+
+    <!-- Tukar bsnqr.png kepada nama fail QR kau -->
+    <img src="qr.jpeg" alt="BSN Payment QR" class="qr">
+
+    <p class="instruction">
+        Please pay the exact amount shown above.
+        <br><br>
+        After payment, return to the food order form
+        and upload your payment receipt.
+    </p>
+
+    <!-- Tukar URL ini kepada URL Jotform kau -->
+    <a href="https://YOUR-JOTFORM-LINK"
+       class="button">
+        BACK TO ORDER FORM
+    </a>
+
+</div>
+
+<script>
+
+    // Ambil parameter "amount" daripada URL
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // Contoh URL:
+    // ?amount=25
+    const amount = urlParams.get("amount");
+
+    const totalElement = document.getElementById("total");
+
+    if (amount !== null && amount !== "") {
+
+        // Tukar kepada nombor
+        const numberAmount = parseFloat(amount);
+
+        if (!isNaN(numberAmount) && numberAmount >= 0) {
+
+            // Paparkan harga dalam format RM
+            totalElement.textContent =
+                "RM " + numberAmount.toFixed(2);
+
+        } else {
+
+            totalElement.innerHTML =
+                '<span class="error">Invalid amount</span>';
+
+        }
+
+    } else {
+
+        totalElement.innerHTML =
+            '<span class="error">Amount not provided</span>';
+
+    }
+
+</script>
+
+</body>
+</html>
